@@ -1,0 +1,103 @@
+/*
+  ALVéON
+  One dark world: near-black ground, silver mark, colour that comes only from the album art.
+  Type is the system face (SF on iPhone) so it works offline with nothing to download.
+  Layout: library is a tilted 3D stack of sleeves (cover flow turned on its side); album and player slide up over it.
+*/
+:root{
+  --bg:#08090d;
+  --fg:#f5f5f7;
+  --mute:rgba(245,245,247,.64);
+  --faint:rgba(245,245,247,.36);
+  --hair:rgba(255,255,255,.14);
+  --glass:rgba(38,40,50,.5);
+  --silver:#dfe2ea;
+  --blue1:#5aa2ff;
+  --blue2:#2468e0;
+  --font:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Helvetica Neue",Helvetica,Arial,sans-serif;
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  --ease:cubic-bezier(.22,.8,.24,1);
+  --st:env(safe-area-inset-top,0px);
+  --sb:env(safe-area-inset-bottom,0px);
+  --gx:max(18px,env(safe-area-inset-left,0px));
+  --gx2:max(18px,env(safe-area-inset-right,0px));
+  color-scheme:dark;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;min-height:100vh;min-height:-webkit-fill-available}
+body{margin:0;background:var(--bg);color:var(--fg);font:400 16px/1.4 var(--font);-webkit-font-smoothing:antialiased;overflow:hidden;overscroll-behavior:none;-webkit-user-select:none;user-select:none}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none;padding:0}
+:focus-visible{outline:2px solid var(--silver);outline-offset:3px}
+.sr{position:absolute;width:1px;height:1px;opacity:0;overflow:hidden;pointer-events:none}
+[hidden]{display:none!important}
+
+#app{position:fixed;top:0;left:0;right:0;bottom:0;min-height:100vh;width:100%;max-width:560px;margin:0 auto;overflow:hidden;overflow:clip;background:var(--bg)}
+
+/* colour wash behind the stack, built from the album covers */
+#bgfx{position:absolute;inset:-12% 0;background:linear-gradient(180deg,#1a2233,#2a1a22);background-size:100% 100%;filter:saturate(1.15);transition:opacity .6s}
+#bgfx::after{content:"";position:absolute;inset:0;background:
+  radial-gradient(120% 60% at 50% 48%,rgba(255,255,255,.07),transparent 60%),
+  linear-gradient(180deg,rgba(5,6,9,.78),rgba(5,6,9,.12) 26%,rgba(5,6,9,.12) 62%,rgba(5,6,9,.86))}
+
+.screen{position:absolute;inset:0}
+.ic{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.ic.fill{fill:currentColor;stroke:none}
+
+/* top bar */
+.top{position:absolute;top:0;left:0;right:0;z-index:4;display:flex;justify-content:space-between;align-items:center;padding:calc(var(--st) + 10px) var(--gx2) 8px var(--gx)}
+.brand{display:flex;align-items:center;height:38px;color:var(--fg)}
+.brand .mk{width:30px;height:30px;object-fit:contain}
+.brand .wm{font:300 15px/1 var(--font);letter-spacing:.3em;margin-left:1px}
+.round{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;color:var(--fg);background:rgba(255,255,255,.14);-webkit-backdrop-filter:blur(18px) saturate(1.6);backdrop-filter:blur(18px) saturate(1.6);transition:transform .25s var(--ease),background .25s;flex:none}
+.round:active{transform:scale(.9);background:rgba(255,255,255,.26)}
+
+/* the stack */
+#lib{--stage-top:calc(var(--st) + 54px);--stage-bot:calc(var(--sb) + 176px)}
+#stage,#scroller{position:absolute;left:0;right:0;top:var(--stage-top);bottom:var(--stage-bot)}
+#stage{overflow:visible;pointer-events:none;-webkit-mask-image:linear-gradient(180deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(180deg,transparent,#000 12%,#000 88%,transparent);-webkit-mask-size:100% 100%;mask-size:100% 100%;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+#stack{position:absolute;inset:0}
+#scroller{z-index:2;overflow-y:auto;overflow-x:hidden;scroll-snap-type:y mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;overscroll-behavior:contain;outline:none}
+#scroller::-webkit-scrollbar{display:none}
+.snap{scroll-snap-align:start}
+
+.slab{position:absolute;left:50%;top:50%;width:var(--s);height:var(--t);margin-left:calc(var(--s) / -2);margin-top:calc(var(--t) / -2);perspective:var(--P);pointer-events:auto;will-change:transform,opacity}
+.face{position:absolute;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.front{left:0;top:0;width:100%;height:100%;transform:translateZ(calc(var(--s) / 2));background:var(--bar);color:var(--bt);display:flex;align-items:center;gap:6px;padding:0 12px;white-space:nowrap;overflow:hidden;border-radius:3px;font-size:12px;box-shadow:inset 0 1px 0 rgba(255,255,255,.35)}
+.front b{font-weight:700;letter-spacing:-.005em}
+.front span{font-weight:400;opacity:.78;overflow:hidden;text-overflow:ellipsis}
+.top-f,.bot-f{left:0;top:calc((var(--t) - var(--s)) / 2);width:var(--s);height:var(--s);background:var(--shade),var(--img),var(--bar);background-size:cover;background-position:center}
+.top-f{transform:rotateX(90deg) translateZ(calc(var(--t) / 2));--shade:linear-gradient(rgba(0,0,0,.28),rgba(0,0,0,0) 40%)}
+.bot-f{transform:rotateX(-90deg) translateZ(calc(var(--t) / 2));--shade:linear-gradient(rgba(0,0,0,0) 55%,rgba(0,0,0,.3))}
+
+#cap{position:absolute;left:0;right:0;bottom:calc(var(--sb) + 108px);z-index:3;display:grid;justify-items:center;gap:2px;padding:6px 28px;text-align:center}
+#cap-t{font:600 20px/1.2 var(--font);letter-spacing:-.015em;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#cap-a{font:400 14px/1.3 var(--font);color:var(--mute);max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#cap.swap #cap-t,#cap.swap #cap-a{opacity:0;transform:translateY(4px)}
+#cap-t,#cap-a{transition:opacity .22s,transform .22s var(--ease)}
+#dots{position:absolute;left:0;right:0;bottom:calc(var(--sb) + 96px);z-index:3;display:flex;justify-content:center;gap:7px;pointer-events:none;height:6px}
+#dots i{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.34);transition:background .25s,transform .25s var(--ease)}
+#dots i.on{background:#fff;transform:scale(1.15)}
+
+#empty{position:absolute;left:0;right:0;top:calc(var(--st) + 90px);bottom:calc(var(--sb) + 40px);z-index:3;display:grid;align-content:center;justify-items:center;gap:12px;padding:0 36px;text-align:center}
+#empty img{width:96px;height:96px;object-fit:contain;filter:drop-shadow(0 0 18px rgba(255,255,255,.2))}
+#empty h2{margin:6px 0 0;font:600 22px/1.2 var(--font);letter-spacing:-.02em}
+#empty p{margin:0 0 10px;color:var(--mute);font-size:15px;max-width:30ch}
+
+/* buttons */
+.pill-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:46px;padding:0 22px;border-radius:23px;background:rgba(255,255,255,.14);-webkit-backdrop-filter:blur(18px) saturate(1.6);backdrop-filter:blur(18px) saturate(1.6);color:var(--fg);font:600 15px var(--font);transition:transform .25s var(--ease),background .25s}
+.pill-btn:active{transform:scale(.96)}
+.pill-btn.primary{background:var(--fg);color:#0b0c10}
+
+/* opening animation: transforms and opacity only, so it stays smooth on any phone */
+#splash{position:absolute;inset:0;z-index:40;display:grid;place-items:center}
+.sp-veil{position:absolute;inset:0;background:#050608}
+.sp-row{position:relative;display:flex;align-items:center;justify-content:center;transform-origin:0 0;will-change:transform}
+.sp-m{position:relative;width:60px;height:60px;flex:none;will-change:transform}
+.sp-glow{position:absolute;left:50%;top:50%;width:300%;height:300%;margin:-150% 0 0 -150%;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.3),rgba(255,255,255,.09) 34%,transparent 62%);opacity:0;pointer-events:none}
+#sp-mark{position:relative;display:block;width:100%;height:100%;object-fit:contain;opacity:0}
+#sp-text{display:flex;font:300 30px/1 var(--font);letter-spacing:.3em;white-space:nowrap;margin:0 0 0 2px}
+#sp-text i{font-style:normal;display:inline-block;opacity:0;will-change:transform,opacity}
+
+@media (prefers-reduced-motion:reduce){
+  *{transition-duration:.01ms!important}
+}
