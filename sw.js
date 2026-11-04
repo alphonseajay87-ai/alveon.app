@@ -1,7 +1,7 @@
 /* ALVéON offline shell: cache every app file on first visit, then serve from the phone. */
-var V = 'alveon-v27';
+var V = 'alveon-v28';
 var FILES = ['./', 'index.html', 'manifest.webmanifest', 'css/app.css', 'css/sheets.css',
-  'js/db.js', 'js/tags.js', 'js/media.js', 'js/synth.js', 'js/store.js', 'js/fx.js', 'js/backup.js', 'js/zip.js', 'js/stack.js', 'js/player.js', 'js/ui.js', 'js/fxui.js', 'js/studio.js', 'js/diag.js', 'js/app.js',
+  'js/db.js', 'js/tags.js', 'js/media.js', 'js/synth.js', 'js/store.js', 'js/fx.js', 'js/backup.js', 'js/zip.js', 'js/cloud.js', 'js/stack.js', 'js/player.js', 'js/ui.js', 'js/fxui.js', 'js/studio.js', 'js/diag.js', 'js/app.js',
   'img/logo.png', 'img/icon-180.png', 'img/icon-192.png', 'img/icon-512.png'];
 self.addEventListener('install', function(e){
   e.waitUntil(caches.open(V).then(function(c){ return c.addAll(FILES); }).then(function(){ return self.skipWaiting(); }));
