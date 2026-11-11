@@ -1,0 +1,38 @@
+/* Studio guide and clearer labels */
+#studio .st-top{position:relative}
+.st-help-b{position:absolute;right:78px;top:50%;margin-top:-4px;transform:translateY(-50%);width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.14);color:var(--fg);font:700 14px/28px var(--font);text-align:center;padding:0}
+.st-help-b:active{background:rgba(255,255,255,.28)}
+.st-hint{margin:0 var(--gx2) 4px var(--gx);font:500 12px/1.3 var(--font);color:var(--faint);text-align:center;flex:none}
+.st-help{position:absolute;inset:0;z-index:60;display:flex;align-items:flex-end}
+.st-help .sh-bg{position:absolute;inset:0;background:rgba(0,0,0,.55)}
+.sh-card{position:relative;width:100%;max-width:560px;margin:0 auto;padding:10px 20px calc(var(--sb) + 18px);border-radius:22px 22px 0 0;background:#1c1d24;-webkit-backdrop-filter:blur(30px);backdrop-filter:blur(30px);animation:shup .35s var(--ease)}
+.sh-card h3{margin:6px 0 12px;font:700 20px/1.2 var(--font);text-align:center}
+.sh-row{display:flex;gap:12px;align-items:flex-start;margin:0 0 12px}
+.sh-row>b{flex:none;width:26px;height:26px;border-radius:50%;background:var(--blue1);color:#fff;font:700 14px/26px var(--font);text-align:center}
+.sh-row strong{display:block;font:600 15px/1.3 var(--font)}
+.sh-row span{display:block;font:400 13.5px/1.35 var(--font);color:var(--mute)}
+.sh-tip{margin:4px 0 14px;font:400 12.5px/1.4 var(--font);color:var(--faint);text-align:center}
+.sh-ok{display:block;width:100%;height:48px;border-radius:24px;background:var(--fg);color:#0b0c10;font:600 16px var(--font)}
+@keyframes shup{from{transform:translateY(40px);opacity:0}}
+.dk-lab{font:700 11px/1 var(--font);letter-spacing:.12em;padding:2px 2px 4px;color:var(--mute)}
+.dk-lab.a{color:#5aa2ff}.dk-lab.b{color:#ff9f0a}
+.dk-xs{display:block;text-align:center;font:500 11.5px/1 var(--font);color:var(--faint);margin-top:-2px}
+
+/* easier controls: bigger touch targets (44pt minimum) */
+.dk-row{gap:6px}
+.dk-row button{min-height:44px;font-size:13px;padding:0 2px;border-radius:12px}
+.dk-xr button,.dk-cut button{min-height:48px}
+.dk-sl{grid-template-columns:52px 1fr;font-size:11px;min-height:40px}
+.dk-sl input[type=range],.dk-xl input[type=range]{height:32px;-webkit-appearance:none;appearance:none;background:transparent}
+.dk-sl input[type=range]::-webkit-slider-runnable-track,.dk-xl input[type=range]::-webkit-slider-runnable-track{height:6px;border-radius:3px;background:rgba(255,255,255,.22)}
+.dk-sl input[type=range]::-webkit-slider-thumb,.dk-xl input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:30px;height:30px;margin-top:-12px;border-radius:50%;background:#fff;box-shadow:0 1px 6px rgba(0,0,0,.5)}
+.st-step button{min-height:44px}
+.st-acts button,.st-pre button{min-height:48px}
+.st-cancel,.st-save{min-height:44px;padding:0 6px}
+
+/* easier mixing: Preview stays reachable, presets all visible, plain-English description */
+#studio .st-tr{position:sticky;top:0;z-index:2;margin:0;padding:6px 16px 8px;background:linear-gradient(#000 80%,rgba(0,0,0,0))}
+#studio .st-pre{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;overflow:visible}
+#studio .st-pre button{min-width:0;padding:0 6px}
+.st-pre-d{margin:8px 20px 0;text-align:center;font:500 13px/1.35 var(--font);color:var(--mute);min-height:18px}
+#st-blend{scroll-padding-top:64px}
